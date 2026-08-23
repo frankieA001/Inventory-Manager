@@ -1,0 +1,98 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaApplication2.ViewModels"
+        x:Class="AvaloniaApplication2.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Inventory Manager"
+        Width="900" Height="600"
+        Background="#F5F5F5">
+
+  <Grid RowDefinitions="Auto,*" Margin="20">
+
+    <!-- TITLE -->
+    <TextBlock Grid.Row="0" Text="Inventory Manager"
+               FontSize="24" FontWeight="Bold"
+               Foreground="#1A5276" Margin="0,0,0,16"/>
+
+    <Grid Grid.Row="1" ColumnDefinitions="320,*">
+
+      <!-- LEFT PANEL: FORM -->
+      <Border Grid.Column="0" Background="White" CornerRadius="8"
+              Padding="16" Margin="0,0,12,0"
+              BoxShadow="0 2 8 0 #22000000">
+        <StackPanel Spacing="10">
+
+          <TextBlock Text="Add / Edit Product" FontWeight="Bold"
+                     FontSize="16" Foreground="#1A5276"/>
+
+          <TextBlock Text="Name"/>
+          <TextBox Text="{Binding Name}" Watermark="Product name"/>
+
+          <TextBlock Text="Category"/>
+          <TextBox Text="{Binding Category}" Watermark="e.g. Electronics"/>
+
+          <TextBlock Text="Quantity"/>
+          <NumericUpDown Value="{Binding Quantity}" Minimum="0"/>
+
+          <TextBlock Text="Price"/>
+          <NumericUpDown Value="{Binding Price}" Minimum="0"
+                         Increment="0.01" FormatString="F2"/>
+
+          <Grid ColumnDefinitions="*,*" Margin="0,8,0,0">
+            <Button Grid.Column="0" Content="Add"
+                    Command="{Binding AddProductCommand}"
+                    HorizontalAlignment="Stretch"
+                    Background="#1A5276" Foreground="White"
+                    Margin="0,0,4,0"/>
+            <Button Grid.Column="1" Content="Update"
+                    Command="{Binding UpdateProductCommand}"
+                    HorizontalAlignment="Stretch"
+                    Background="#2E86C1" Foreground="White"
+                    Margin="4,0,0,0"/>
+          </Grid>
+
+          <Button Content="Delete Selected"
+                  Command="{Binding DeleteProductCommand}"
+                  HorizontalAlignment="Stretch"
+                  Background="#C0392B" Foreground="White"/>
+
+        </StackPanel>
+      </Border>
+
+      <!-- RIGHT PANEL: TABLE -->
+      <Grid Grid.Column="1" RowDefinitions="Auto,*">
+
+        <!-- SEARCH BAR -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+          <TextBox Grid.Column="0" Text="{Binding SearchText}"
+                   Watermark="Search by name or category..."
+                   Margin="0,0,8,0"/>
+          <Button Grid.Column="1" Content="Search"
+                  Command="{Binding SearchProductsCommand}"
+                  Background="#1A5276" Foreground="White"/>
+        </Grid>
+
+        <!-- PRODUCT TABLE -->
+        <Border Grid.Row="1" Background="White" CornerRadius="8"
+                BoxShadow="0 2 8 0 #22000000">
+          <ListBox ItemsSource="{Binding Products}"
+                   SelectedItem="{Binding SelectedProduct}"
+                   Margin="8">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="50,*,120,60,80">
+                  <TextBlock Grid.Column="0" Text="{Binding Id}" Margin="4"/>
+                  <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="4"/>
+                  <TextBlock Grid.Column="2" Text="{Binding Category}" Margin="4"/>
+                  <TextBlock Grid.Column="3" Text="{Binding Quantity}" Margin="4"/>
+                  <TextBlock Grid.Column="4" Text="{Binding Price}" Margin="4"/>
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </Border>
+
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>
